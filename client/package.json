@@ -24,6 +24,7 @@
     "jquery-contextmenu": "^2.6.4",
     "jquery.fancytree": "2.29.0",
     "jqueryui": "^1.11.1",
-    "popper.js": "1.14.3"
+    "popper.js": "1.14.3",
+    "hoek": "4.2.1"
   }
 }
