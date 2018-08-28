@@ -1,0 +1,29 @@
+{
+  "name": "wiki-mapper",
+  "version": "1.0.0",
+  "description": "wiki mapper",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Sławomir Dadas",
+  "license": "GPL",
+  "devDependencies": {
+    "@types/jquery": "3.3.4",
+    "@types/jquery.contextmenu": "^1.7.33",
+    "@types/jquery.fancytree": "0.0.0",
+    "@types/jqueryui": "^1.12.2",
+    "@types/node": "^10.3.5",
+    "node-sass": "^4.9.0",
+    "parcel-bundler": "1.9.2",
+    "typescript": "2.9.2"
+  },
+  "dependencies": {
+    "bootstrap": "4.0.0-beta.2",
+    "jquery": "3.3.1",
+    "jquery-contextmenu": "^2.6.4",
+    "jquery.fancytree": "2.29.0",
+    "jqueryui": "^1.11.1",
+    "popper.js": "1.14.3"
+  }
+}

@@ -1,0 +1,144 @@
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Wiki mapper</title>
+    <style rel="stylesheet">
+        body{background:#f9f9f9 !important;}
+        main{background:#fff;padding-top:20px;padding-bottom:20px;border-right:2px solid #eee;border-left:2px solid #eee}
+        .context-menu-item{font-weight:bold}
+        .menu-sub span{font-weight:normal;margin-left:10px}
+    </style>
+</head>
+<body>
+<main role="main" class="container">
+    <div class="starter-template">
+        <h1>wiki-mapper</h1>
+        <p class="lead">A tool for searching and labelling wikipedia category tree.</p>
+    </div>
+    <form id="filters" class="app-filters">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <input class="form-control filters-input" type="text" name="search" placeholder="Search query">
+            </div>
+            <div class="form-group col-md-6">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary active">
+                        <input class="filters-input" type="radio" name="expand" value="CHILDREN" autocomplete="off" checked /> Children
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                        <input class="filters-input" type="radio" name="expand" value="CATEGORY_PARENTS" autocomplete="off" /> Parents
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                        <input class="filters-input" type="radio" name="expand" value="ARTICLE_PARENTS" autocomplete="off" /> Articles
+                    </label>
+                </div>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary active">
+                        <input class="filters-input" type="radio" name="show" value="ALL" autocomplete="off" checked /> Show all
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                        <input class="filters-input" type="radio" name="show" value="LABELLED" autocomplete="off" /> Labelled
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                        <input class="filters-input" type="radio" name="show" value="UNLABELLED" autocomplete="off" /> Unlabelled
+                    </label>
+                </div>
+
+            </div>
+            <div class="form-group col-md-3">
+                <button id="searchButton" type="button" class="btn btn-outline-primary float-right">Search</button>
+                <span class="float-right">&nbsp;</span>
+                <button id="statsButton" type="button" class="btn btn-outline-primary float-right" data-toggle="modal" data-target="#statsModal">Stats</button>
+                <span class="float-right">&nbsp;</span>
+                <div class="dropdown float-right">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort order
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sortButton">
+                        <li class="dropdown-item">
+                            <input class="filters-input" type="radio" name="sort" value="id" autocomplete="off" checked />
+                            <span>Page id</span>
+                        </li>
+                        <li class="dropdown-item">
+                            <input class="filters-input" type="radio" name="sort" value="articles" autocomplete="off" />
+                            <span>Article count</span>
+                        </li>
+                        <li class="dropdown-item">
+                            <input class="filters-input" type="radio" name="sort" value="labelled" autocomplete="off" />
+                            <span>Labelled count</span>
+                        </li>
+                        <li class="dropdown-item">
+                            <input class="filters-input" type="radio" name="sort" value="unlabelled" autocomplete="off" />
+                            <span>Unlabelled count</span>
+                        </li>
+                        <li class="dropdown-item">
+                            <input class="filters-input" type="radio" name="sort" value="lpercent" autocomplete="off" />
+                            <span>Labelled percent</span>
+                        </li>
+                        <li class="dropdown-item">
+                            <input class="filters-input" type="radio" name="sort" value="upercent" autocomplete="off" />
+                            <span>Unlabelled percent</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <table id="tree">
+        <colgroup>
+            <col width="30px"></col>
+            <col width="700px"></col>
+            <col width="70px"></col>
+            <col width="70px"></col>
+            <col width="150px"></col>
+            <col width="150px"></col>
+        </colgroup>
+        <thead>
+            <tr style="text-align:center;background:#eee;line-height:2">
+                <th>#</th>
+                <th>
+                    <span class="float-left">
+                        <button id="selectAllButton" type="button" class="btn btn-outline-dark btn-sm">Select all</button>
+                        <button id="deselectAllButton" type="button" class="btn btn-outline-dark btn-sm">Deselect all</button>
+                    </span>
+                    Category
+
+                </th>
+                <th>Articles</th>
+                <th>Labelled</th>
+                <th>Label</th>
+                <th>Inherited label</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <span id="loading">&nbsp;</span>
+
+    <div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statsModalTitle">Article stats</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="statsModalBody" class="modal-body">
+                    [loading]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="refreshButton" type="button" class="btn btn-primary" data-dismiss="modal">Refresh</button>
+                    <a class="btn btn-primary" target="_blank" href="http://localhost:8080/download" role="button">Download mapping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<script src="./src/index.ts"></script>
+</body>
+</html>

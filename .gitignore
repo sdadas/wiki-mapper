@@ -1,0 +1,12 @@
+# Intellij project files
+*.iml
+*.iws
+*.ipr
+*.ids
+.idea
+
+# Project specific files
+node_modules
+.cache
+dist
+*/target/**
